@@ -43,6 +43,7 @@ func main() {
 	mux.HandleFunc("/api/logout", apiHandler.Logout)
 	mux.HandleFunc("/api/parts", apiHandler.GetParts)
 	mux.HandleFunc("/api/filters", apiHandler.GetFilters)
+	mux.HandleFunc("/api/image", apiHandler.ProxyImage)
 
 	// Static files (including index.html as frontend)
 	fs := http.FileServer(http.Dir("."))

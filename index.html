@@ -282,19 +282,29 @@
             
             if (!url.includes('drive.google.com')) return url;
             
-            let driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            if (driveMatch && driveMatch[1].length > 10) {
-                return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
-            }
+            let fileID = '';
             
-            let fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            const fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
             if (fileMatch && fileMatch[1].length > 10) {
-                return `https://drive.google.com/uc?export=view&id=${fileMatch[1]}`;
+                fileID = fileMatch[1];
             }
             
-            const ucMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
-            if (ucMatch && ucMatch[1].length > 10) {
-                return `https://drive.google.com/uc?export=view&id=${ucMatch[1]}`;
+            if (!fileID) {
+                const driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (driveMatch && driveMatch[1].length > 10) {
+                    fileID = driveMatch[1];
+                }
+            }
+            
+            if (!fileID) {
+                const idMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (idMatch && idMatch[1].length > 10) {
+                    fileID = idMatch[1];
+                }
+            }
+            
+            if (fileID) {
+                return `${API_BASE}/api/image?url=${encodeURIComponent(url)}`;
             }
             
             return url;

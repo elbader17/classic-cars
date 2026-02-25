@@ -2,7 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
+	"regexp"
+	"strings"
 
 	"github.com/eduardo/classicCarSearch/internal/models"
 	"github.com/eduardo/classicCarSearch/internal/services"
@@ -195,6 +198,75 @@ func (h *APIHandler) GetFilters(w http.ResponseWriter, r *http.Request) {
 		"brands": brands,
 		"types":  types,
 	})
+}
+
+func (h *APIHandler) ProxyImage(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		writeJSONError(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	imageURL := r.URL.Query().Get("url")
+	if imageURL == "" {
+		http.Error(w, "URL parameter required", http.StatusBadRequest)
+		return
+	}
+
+	proxyURL := convertToProxyURL(imageURL)
+	if proxyURL == "" {
+		http.Error(w, "Invalid image URL", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := http.Get(proxyURL)
+	if err != nil {
+		http.Error(w, "Failed to fetch image", http.StatusBadGateway)
+		return
+	}
+	defer resp.Body.Close()
+
+	for k, v := range resp.Header {
+		w.Header().Set(k, v[0])
+	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	io.Copy(w, resp.Body)
+}
+
+func convertToProxyURL(url string) string {
+	if !strings.Contains(url, "drive.google.com") {
+		return url
+	}
+
+	var fileID string
+
+	if match, _ := regexp.MatchString(`.*/d/([a-zA-Z0-9_-]+).*`, url); match {
+		parts := strings.Split(url, "/d/")
+		if len(parts) > 1 {
+			idPart := strings.Split(parts[1], "/")[0]
+			if len(idPart) > 10 {
+				fileID = idPart
+			}
+		}
+	}
+
+	if fileID == "" {
+		if match, _ := regexp.MatchString(`id=([a-zA-Z0-9_-]+)`, url); match {
+			parts := strings.Split(url, "id=")
+			if len(parts) > 1 {
+				idPart := strings.Split(parts[1], "&")[0]
+				if len(idPart) > 10 {
+					fileID = idPart
+				}
+			}
+		}
+	}
+
+	if fileID != "" {
+		return "https://drive.google.com/uc?export=view&id=" + fileID
+	}
+
+	return url
 }
 
 func writeJSONSuccess(w http.ResponseWriter, data interface{}) {

@@ -48,6 +48,13 @@
             -moz-osx-font-smoothing: grayscale;
         }
         
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
         .leather-stitch {
             position: relative;
         }
@@ -80,47 +87,47 @@
 </head>
 <body class="selection:bg-heritage-red selection:text-white bg-leather-texture">
 
-    <div id="login-view" class="min-h-screen flex flex-col justify-center items-center p-6 relative">
+    <div id="login-view" class="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 relative">
         <div class="absolute inset-0 bg-gradient-to-b from-heritage-base/50 to-heritage-base pointer-events-none z-0"></div>
         
         <div class="w-full max-w-md z-10 relative">
-            <div class="text-center mb-10">
-                <img src="logo.gif" alt="Club de Automóviles Clásicos" class="w-40 h-40 mx-auto mb-6 drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)] rounded-full">
+            <div class="text-center mb-6 sm:mb-10">
+                <img src="logo.gif" alt="Club de Automóviles Clásicos" class="w-28 h-28 sm:w-40 sm:h-40 mx-auto mb-4 sm:mb-6 drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)] rounded-full">
                 
-                <h1 class="text-3xl text-heritage-cream font-serif mb-2">Acceso al Archivo</h1>
-                <p class="text-heritage-gold font-sans text-sm tracking-widest uppercase italic">Catálogo de Repuestos</p>
+                <h1 class="text-2xl sm:text-3xl text-heritage-cream font-serif mb-1 sm:mb-2">Acceso al Archivo</h1>
+                <p class="text-heritage-gold font-sans text-xs sm:text-sm tracking-widest uppercase italic">Catálogo de Repuestos</p>
             </div>
 
-            <form id="login-form" class="bg-heritage-leather border border-heritage-saddle p-8 shadow-2xl relative rounded-sm leather-stitch">
-                <div class="space-y-6 relative z-10">
+            <form id="login-form" class="bg-heritage-leather border border-heritage-saddle p-5 sm:p-8 shadow-2xl relative rounded-sm leather-stitch">
+                <div class="space-y-4 sm:space-y-6 relative z-10">
                     <div>
-                        <label class="block text-xs font-sans tracking-widest text-heritage-parchment uppercase mb-2">
+                        <label class="block text-xs font-sans tracking-widest text-heritage-parchment uppercase mb-1 sm:mb-2">
                             Socio / Usuario
                         </label>
                         <input 
                             type="text" 
-                            class="w-full input-classic py-3 px-4 rounded-sm text-sm font-sans"
-                            placeholder="Ingrese su usuario"
+                            class="w-full input-classic py-2.5 sm:py-3 px-3 sm:px-4 rounded-sm text-sm font-sans"
+                            placeholder="Usuario"
                             required
                         />
                     </div>
                     
                     <div>
-                        <label class="block text-xs font-sans tracking-widest text-heritage-parchment uppercase mb-2">
+                        <label class="block text-xs font-sans tracking-widest text-heritage-parchment uppercase mb-1 sm:mb-2">
                             Clave
                         </label>
                         <input 
                             type="password" 
-                            class="w-full input-classic py-3 px-4 rounded-sm text-sm font-sans"
+                            class="w-full input-classic py-2.5 sm:py-3 px-3 sm:px-4 rounded-sm text-sm font-sans"
                             placeholder="••••••••"
                             required
                         />
                     </div>
 
-                    <div class="pt-4">
+                    <div class="pt-2 sm:pt-4">
                         <button 
                             type="submit"
-                            class="w-full bg-heritage-red hover:bg-heritage-redHover text-white font-serif font-medium tracking-wider py-3 px-4 transition-all duration-300 uppercase shadow-[0_4px_14px_rgba(198,40,40,0.4)] border border-red-900 rounded-sm"
+                            class="w-full bg-heritage-red hover:bg-heritage-redHover text-white font-serif font-medium tracking-wider py-2.5 sm:py-3 px-3 sm:px-4 transition-all duration-300 uppercase shadow-[0_4px_14px_rgba(198,40,40,0.4)] border border-red-900 rounded-sm text-sm"
                         >
                             Ingresar al Sistema
                         </button>
@@ -132,90 +139,91 @@
 
     <div id="dashboard-view" class="hidden min-h-screen pb-20">
         <header class="border-b-4 border-heritage-saddle bg-heritage-leather shadow-xl sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <img src="logo.gif" alt="Logo Club" class="w-12 h-12 rounded-full shadow-md bg-heritage-cream">
-                    <div>
-                        <h1 class="text-xl font-serif text-heritage-cream leading-tight">
+            <div class="max-w-7xl mx-auto px-2 sm:px-6 h-auto sm:h-20 flex items-center justify-between py-2 sm:py-0">
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <img src="logo.gif" alt="Logo Club" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-md bg-heritage-cream">
+                    <div class="hidden sm:block">
+                        <h1 class="text-lg sm:text-xl font-serif text-heritage-cream leading-tight">
                             Club de Automóviles Clásicos
                         </h1>
                         <p class="text-[10px] text-heritage-gold tracking-widest uppercase font-bold">Argentina 1965</p>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 sm:gap-6 pr-2 sm:pr-0">
                     <div class="hidden md:flex items-center gap-3">
                         <i class="fa-solid fa-user-tie text-heritage-parchment text-lg"></i>
                         <span class="text-sm text-heritage-parchment font-serif italic">Administrador</span>
                     </div>
                     <button 
                         id="logout-btn"
-                        class="text-sm text-heritage-cream bg-heritage-base border border-heritage-saddle hover:bg-heritage-saddle hover:text-white px-4 py-2 rounded-sm transition-colors"
+                        class="text-xs sm:text-sm text-heritage-cream bg-heritage-base border border-heritage-saddle hover:bg-heritage-saddle hover:text-white px-2 sm:px-4 py-1 sm:py-2 rounded-sm transition-colors"
                     >
-                        Cerrar Sesión
+                        <span class="hidden sm:inline">Cerrar Sesión</span>
+                        <i class="fa-solid fa-sign-out-alt sm:hidden"></i>
                     </button>
                 </div>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto px-6 mt-10">
-            <div class="bg-heritage-leather border border-heritage-saddle p-6 rounded-sm mb-10 shadow-lg leather-stitch">
-                <div class="relative z-10 flex flex-col lg:flex-row justify-between items-end gap-6">
+        <main class="max-w-7xl mx-auto px-2 sm:px-6 mt-4 sm:mt-10">
+            <div class="bg-heritage-leather border border-heritage-saddle p-3 sm:p-6 rounded-sm mb-6 sm:mb-10 shadow-lg leather-stitch">
+                <div class="relative z-10 flex flex-col lg:flex-row justify-between items-end gap-3 sm:gap-6">
                     
                     <div class="w-full lg:w-2/5 relative">
-                        <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-2 font-bold">Buscar Pieza</label>
+                        <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-1 sm:mb-2 font-bold">Buscar Pieza</label>
                         <div class="relative">
-                            <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-heritage-gold"></i>
+                            <i class="fa-solid fa-search absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-heritage-gold text-sm"></i>
                             <input 
                                 id="search-input"
                                 type="text" 
-                                placeholder="Nombre, modelo o descripción..."
-                                class="w-full input-classic py-2.5 pl-10 pr-4 rounded-sm text-sm"
+                                placeholder="Buscar..."
+                                class="w-full input-classic py-2 sm:py-2.5 pl-8 sm:pl-10 pr-3 sm:pr-4 rounded-sm text-sm"
                             />
                         </div>
                     </div>
                     
-                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <div class="relative min-w-[200px]">
-                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-2 font-bold">Marca</label>
+                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full lg:w-auto">
+                        <div class="relative min-w-[140px] sm:min-w-[200px] flex-1 sm:flex-initial">
+                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-1 sm:mb-2 font-bold">Marca</label>
                             <select 
                                 id="marca-filter"
-                                class="w-full appearance-none input-classic py-2.5 px-4 rounded-sm cursor-pointer text-sm"
+                                class="w-full appearance-none input-classic py-2 sm:py-2.5 px-3 sm:px-4 rounded-sm cursor-pointer text-sm"
                             >
-                                <option value="Todas">Todas las marcas</option>
+                                <option value="Todas">Todas</option>
                             </select>
-                            <i class="fa-solid fa-chevron-down absolute right-4 bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
+                            <i class="fa-solid fa-chevron-down absolute right-3 sm:right-4 bottom-2.5 sm:bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
                         </div>
 
-                        <div class="relative min-w-[200px]">
-                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-2 font-bold">Categoría</label>
+                        <div class="relative min-w-[140px] sm:min-w-[200px] flex-1 sm:flex-initial">
+                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-1 sm:mb-2 font-bold">Categoría</label>
                             <select 
                                 id="tipo-filter"
-                                class="w-full appearance-none input-classic py-2.5 px-4 rounded-sm cursor-pointer text-sm"
+                                class="w-full appearance-none input-classic py-2 sm:py-2.5 px-3 sm:px-4 rounded-sm cursor-pointer text-sm"
                             >
-                                <option value="Todos">Todas las categorías</option>
+                                <option value="Todos">Todas</option>
                             </select>
-                            <i class="fa-solid fa-chevron-down absolute right-4 bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
+                            <i class="fa-solid fa-chevron-down absolute right-3 sm:right-4 bottom-2.5 sm:bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mb-6 flex justify-between items-center border-b border-heritage-saddle pb-2">
-                <h2 class="text-lg font-serif text-heritage-cream italic">
-                    Catálogo de Repuestos Disponibles
+            <div class="mb-4 sm:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 border-b border-heritage-saddle pb-2">
+                <h2 class="text-base sm:text-lg font-serif text-heritage-cream italic">
+                    Catálogo de Repuestos
                 </h2>
                 <p class="text-xs text-heritage-parchment font-sans">
-                    Mostrando <span id="results-count" class="text-heritage-gold font-bold text-sm">0</span> piezas
+                    <span id="results-count" class="text-heritage-gold font-bold text-sm">0</span> piezas
                 </p>
             </div>
 
-            <div id="parts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="parts-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
             </div>
         </main>
     </div>
 
-    <div id="part-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+    <div id="part-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-6 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-heritage-leather border-2 border-heritage-saddle w-full max-w-4xl max-h-[90vh] rounded-sm shadow-2xl flex flex-col overflow-hidden relative leather-stitch transform scale-95 transition-transform duration-300" id="modal-content">
             
             <button onclick="closeModal()" class="absolute top-4 right-4 z-50 bg-heritage-base/80 hover:bg-heritage-red text-heritage-cream w-8 h-8 flex items-center justify-center rounded-sm border border-heritage-saddle transition-colors">
@@ -225,47 +233,47 @@
             <div class="flex flex-col md:flex-row h-full overflow-y-auto overflow-x-hidden md:overflow-hidden relative z-10">
                 
                 <div class="w-full md:w-1/2 bg-[#140e0a] border-b md:border-b-0 md:border-r-2 border-heritage-saddle flex flex-col">
-                    <div id="zoom-container" class="relative w-full h-64 md:h-80 overflow-hidden cursor-crosshair group bg-black">
+                    <div id="zoom-container" class="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden cursor-crosshair group bg-black">
                         <img id="modal-main-image" src="" alt="Vista principal" class="w-full h-full object-cover transition-transform duration-100 ease-out" />
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors pointer-events-none flex items-center justify-center">
-                            <i class="fa-solid fa-magnifying-glass text-white/50 text-3xl group-hover:opacity-0 transition-opacity"></i>
+                            <i class="fa-solid fa-magnifying-glass text-white/50 text-2xl sm:text-3xl group-hover:opacity-0 transition-opacity"></i>
                         </div>
                     </div>
                     
-                    <div id="modal-thumbnails" class="flex gap-2 p-3 bg-heritage-base overflow-x-auto">
+                    <div id="modal-thumbnails" class="flex gap-1 sm:gap-2 p-2 sm:p-3 bg-heritage-base overflow-x-auto">
                     </div>
                 </div>
 
                 <div class="w-full md:w-1/2 bg-heritage-creamDark flex flex-col">
-                    <div class="p-6 md:p-8 flex-1 overflow-y-auto">
-                        <div class="border-b-2 border-heritage-saddle/30 pb-4 mb-6">
-                            <h2 id="modal-title" class="text-3xl font-serif font-bold text-heritage-leather leading-tight mb-2"></h2>
+                    <div class="p-3 sm:p-4 md:p-8 flex-1 overflow-y-auto">
+                        <div class="border-b-2 border-heritage-saddle/30 pb-2 sm:pb-4 mb-2 sm:mb-6">
+                            <h2 id="modal-title" class="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-heritage-leather leading-tight mb-1 sm:mb-2"></h2>
                             <p class="text-xs font-sans tracking-widest text-heritage-saddle uppercase font-bold">Ref. <span id="modal-id"></span></p>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-y-6 gap-x-4 mb-8">
+                        <div class="grid grid-cols-2 gap-y-2 sm:gap-y-6 gap-x-2 sm:gap-x-4 mb-2 sm:mb-6">
                             <div>
-                                <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-1">Fabricante</span>
-                                <span id="modal-marca" class="font-serif italic text-heritage-base text-lg"></span>
+                                <span class="block text-[8px] sm:text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-0.5 sm:mb-1">Fabricante</span>
+                                <span id="modal-marca" class="font-serif italic text-heritage-base text-sm sm:text-lg"></span>
                             </div>
                             <div>
-                                <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-1">Modelo / Año</span>
-                                <span id="modal-modelo" class="font-serif text-heritage-base text-lg"></span>
+                                <span class="block text-[8px] sm:text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-0.5 sm:mb-1">Modelo / Año</span>
+                                <span id="modal-modelo" class="font-serif text-heritage-base text-sm sm:text-lg"></span>
                             </div>
-                            <div>
-                                <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-1">Categoría</span>
-                                <span id="modal-tipo" class="font-serif text-heritage-base text-lg"></span>
+                            <div class="col-span-2">
+                                <span class="block text-[8px] sm:text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-0.5 sm:mb-1">Categoría</span>
+                                <span id="modal-tipo" class="font-serif text-heritage-base text-sm sm:text-lg"></span>
                             </div>
                         </div>
 
-                        <div class="mb-6">
-                            <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-2">Notas del Archivo</span>
-                            <p id="modal-descripcion" class="text-sm font-sans text-heritage-leather/90 leading-relaxed text-justify"></p>
+                        <div class="mb-2 sm:mb-6">
+                            <span class="block text-[8px] sm:text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-1">Notas del Archivo</span>
+                            <p id="modal-descripcion" class="text-xs sm:text-sm font-sans text-heritage-leather/90 leading-relaxed text-justify"></p>
                         </div>
                     </div>
                     
-                    <div class="bg-heritage-parchment p-4 border-t-2 border-heritage-saddle/20 flex justify-end">
-                        <button onclick="closeModal()" class="bg-heritage-base hover:bg-heritage-leather text-heritage-cream font-serif tracking-wider px-6 py-2 rounded-sm border border-heritage-saddle transition-colors shadow-md text-sm">
+                    <div class="bg-heritage-parchment p-2 sm:p-4 border-t-2 border-heritage-saddle/20 flex justify-end">
+                        <button onclick="closeModal()" class="bg-heritage-base hover:bg-heritage-leather text-heritage-cream font-serif tracking-wider px-4 sm:px-6 py-1.5 sm:py-2 rounded-sm border border-heritage-saddle transition-colors shadow-md text-xs sm:text-sm">
                             Volver al Catálogo
                         </button>
                     </div>
@@ -544,7 +552,7 @@
                     <div onclick="openModalByIndex(${index})" class="group bg-heritage-leather border border-heritage-saddle rounded-sm overflow-hidden flex flex-col shadow-xl leather-stitch hover:-translate-y-1 transition-transform duration-300 cursor-pointer">
                         <div class="relative z-10 flex flex-col h-full">
                             
-                            <div class="relative h-48 overflow-hidden bg-[#140e0a] border-b-2 border-heritage-saddle">
+                            <div class="relative h-36 sm:h-48 overflow-hidden bg-[#140e0a] border-b-2 border-heritage-saddle">
                                 <img 
                                     src="${cardImage}" 
                                     alt="${partData.Name}" 
@@ -552,42 +560,42 @@
                                     onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22400%22%20height=%22300%22%3E%3Crect%20fill=%22%2319120D%22%20width=%22400%22%20height=%22300%22/%3E%3Ctext%20fill=%22%236B4226%22%20x=%2250%25%22%20y=%2250%25%22%20text-anchor=%22middle%22%20dy=%22.3em%22%3EImagen%3C/text%3E%3C/svg%3E'"
                                 />
                                 ${images.length > 1 ? `
-                                <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-sm border border-heritage-saddle/50 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-images text-heritage-cream text-[10px]"></i>
-                                    <span class="text-[10px] text-heritage-cream font-sans">${images.length}</span>
+                                <div class="absolute bottom-1 sm:bottom-2 right-1 sm:right-2 bg-black/60 backdrop-blur-sm px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-sm border border-heritage-saddle/50 flex items-center gap-1">
+                                    <i class="fa-solid fa-images text-heritage-cream text-[8px] sm:text-[10px]"></i>
+                                    <span class="text-[8px] sm:text-[10px] text-heritage-cream font-sans">${images.length}</span>
                                 </div>
                                 ` : ''}
                             </div>
 
-                            <div class="p-5 flex-1 flex flex-col bg-heritage-creamDark text-heritage-base">
-                                <h3 class="text-xl font-serif font-bold mb-3 text-heritage-leather group-hover:text-heritage-redHover transition-colors">
+                            <div class="p-3 sm:p-5 flex-1 flex flex-col bg-heritage-creamDark text-heritage-base">
+                                <h3 class="text-base sm:text-xl font-serif font-bold mb-2 sm:mb-3 text-heritage-leather group-hover:text-heritage-redHover transition-colors line-clamp-2">
                                     ${partData.Name}
                                 </h3>
                                 
-                                <div class="grid grid-cols-2 gap-y-4 gap-x-2 mb-4 text-sm font-sans">
+                                <div class="grid grid-cols-2 gap-y-2 sm:gap-y-4 gap-x-1 sm:gap-x-2 mb-2 sm:mb-4 text-xs sm:text-sm font-sans">
                                     <div>
-                                        <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Marca</span>
-                                        <span class="font-serif italic text-heritage-base">
+                                        <span class="block text-[8px] sm:text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Marca</span>
+                                        <span class="font-serif italic text-heritage-base text-sm">
                                             ${partData.Brand}
                                         </span>
                                     </div>
                                     <div>
-                                        <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Modelo / Año</span>
-                                        <span class="font-serif text-heritage-base">
+                                        <span class="block text-[8px] sm:text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Modelo / Año</span>
+                                        <span class="font-serif text-heritage-base text-sm">
                                             ${partData.Model} ('${partData.Year.toString().substring(2)})
                                         </span>
                                     </div>
                                     <div class="col-span-2">
-                                        <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Categoría</span>
-                                        <span class="font-serif text-heritage-base font-medium">
+                                        <span class="block text-[8px] sm:text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Categoría</span>
+                                        <span class="font-serif text-heritage-base font-medium text-sm">
                                             ${partData.Type}
                                         </span>
                                     </div>
                                 </div>
 
-                                <div class="mt-auto pt-3 border-t border-heritage-saddle/30 flex justify-between items-center">
-                                    <span class="text-[10px] font-sans text-heritage-saddle uppercase tracking-widest font-bold">Ver expediente completo</span>
-                                    <i class="fa-solid fa-arrow-right text-heritage-red text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all"></i>
+                                <div class="mt-auto pt-2 sm:pt-3 border-t border-heritage-saddle/30 flex justify-between items-center">
+                                    <span class="text-[8px] sm:text-[10px] font-sans text-heritage-saddle uppercase tracking-widest font-bold">Ver expediente</span>
+                                    <i class="fa-solid fa-arrow-right text-heritage-red text-xs sm:text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all"></i>
                                 </div>
                             </div>
 

@@ -277,6 +277,22 @@
     <script>
         const API_BASE = 'https://classic-car-search-983986360116.us-central1.run.app';
 
+        function getDriveImageUrl(url) {
+            if (!url || typeof url !== 'string') return url;
+            
+            const driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (driveMatch) {
+                return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+            }
+            
+            const ucMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
+            if (ucMatch && url.includes('drive.google.com')) {
+                return `https://drive.google.com/uc?export=view&id=${ucMatch[1]}`;
+            }
+            
+            return url;
+        }
+
         let currentParts = [];
         let isAuthenticated = false;
 
@@ -407,16 +423,17 @@
             
             modalThumbnails.innerHTML = '';
             images.forEach((imgUrl, index) => {
-                const safeUrl = imgUrl.replace(/'/g, "\\'");
+                const displayUrl = getDriveImageUrl(imgUrl);
+                const safeUrl = displayUrl.replace(/'/g, "\\'");
                 const thumbHTML = `
                     <button onclick="setMainImage('${safeUrl}')" class="flex-shrink-0 w-20 h-16 border-2 border-transparent hover:border-heritage-gold focus:border-heritage-gold focus:outline-none transition-colors rounded-sm overflow-hidden">
-                        <img src="${imgUrl}" class="w-full h-full object-cover" alt="Vista ${index + 1}">
+                        <img src="${displayUrl}" class="w-full h-full object-cover" alt="Vista ${index + 1}" onerror="this.src='${defaultImage}'">
                     </button>
                 `;
                 modalThumbnails.insertAdjacentHTML('beforeend', thumbHTML);
             });
 
-            setMainImage(images[0]);
+            setMainImage(getDriveImageUrl(images[0]));
 
             modal.classList.remove('hidden');
             setTimeout(() => {
@@ -485,7 +502,7 @@
             parts.forEach((part, index) => {
                 const partData = part.Part;
                 const images = partData.ImagenesArr && partData.ImagenesArr.length > 0 ? partData.ImagenesArr : [defaultImage];
-                const cardImage = images[0];
+                const cardImage = getDriveImageUrl(images[0]);
                 const cardHTML = `
                     <div onclick="openModalByIndex(${index})" class="group bg-heritage-leather border border-heritage-saddle rounded-sm overflow-hidden flex flex-col shadow-xl leather-stitch hover:-translate-y-1 transition-transform duration-300 cursor-pointer">
                         <div class="relative z-10 flex flex-col h-full">
@@ -495,6 +512,7 @@
                                     src="${cardImage}" 
                                     alt="${partData.Name}" 
                                     class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                                    onerror="this.src='${defaultImage}'"
                                 />
                                 ${images.length > 1 ? `
                                 <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-sm border border-heritage-saddle/50 flex items-center gap-1.5">

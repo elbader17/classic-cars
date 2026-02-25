@@ -299,14 +299,6 @@
             
             return url;
         }
-            
-            const ucMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
-            if (ucMatch) {
-                return `https://drive.google.com/uc?export=view&id=${ucMatch[1]}`;
-            }
-            
-            return url;
-        }
 
         function isGif(url) {
             if (!url) return false;

@@ -439,7 +439,7 @@
                 const safeUrl = displayUrl.replace(/'/g, "\\'");
                 const thumbHTML = `
                     <button onclick="setMainImage('${safeUrl}')" class="flex-shrink-0 w-20 h-16 border-2 border-transparent hover:border-heritage-gold focus:border-heritage-gold focus:outline-none transition-colors rounded-sm overflow-hidden">
-                        <img src="${displayUrl}" class="w-full h-full object-cover" alt="Vista ${index + 1}" onerror="this.src='${defaultImage}'">
+                        <img src="${displayUrl}" class="w-full h-full object-cover" alt="Vista ${index + 1}" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22400%22%20height=%22300%22%3E%3Crect%20fill=%22%2319120D%22%20width=%22400%22%20height=%22300%22/%3E%3Ctext%20fill=%22%236B4226%22%20x=%2250%25%22%20y=%2250%25%22%20text-anchor=%22middle%22%20dy=%22.3em%22%3EImagen%3C/text%3E%3C/svg%3E'">
                     </button>
                 `;
                 modalThumbnails.insertAdjacentHTML('beforeend', thumbHTML);
@@ -539,7 +539,7 @@
                                     src="${cardImage}" 
                                     alt="${partData.Name}" 
                                     class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                                    onerror="this.src='${defaultImage}'"
+                                    onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22400%22%20height=%22300%22%3E%3Crect%20fill=%22%2319120D%22%20width=%22400%22%20height=%22300%22/%3E%3Ctext%20fill=%22%236B4226%22%20x=%2250%25%22%20y=%2250%25%22%20text-anchor=%22middle%22%20dy=%22.3em%22%3EImagen%3C/text%3E%3C/svg%3E'"
                                 />
                                 ${images.length > 1 ? `
                                 <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-sm border border-heritage-saddle/50 flex items-center gap-1.5">

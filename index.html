@@ -429,7 +429,7 @@
             document.getElementById('modal-tipo').textContent = part.Type;
             document.getElementById('modal-descripcion').textContent = part.Description || 'Sin descripción disponible';
 
-            const defaultImage = 'https://images.unsplash.com/photo-1486262715619-670810aa70f2?auto=format&fit=crop&q=80&w=1200';
+            const defaultImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"%3E%3Crect fill="%2319120D" width="400" height="300"/%3E%3Ctext fill="%236B4226" font-family="sans-serif" font-size="16" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EImagen no disponible%3C/text%3E%3C/svg%3E';
             
             const images = part.ImagenesArr && part.ImagenesArr.length > 0 ? part.ImagenesArr : [defaultImage];
             
@@ -524,7 +524,7 @@
                 return;
             }
 
-            const defaultImage = 'https://images.unsplash.com/photo-1486262715619-670810aa70f2?auto=format&fit=crop&q=80&w=1200';
+            const defaultImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"%3E%3Crect fill="%2319120D" width="400" height="300"/%3E%3Ctext fill="%236B4226" font-family="sans-serif" font-size="16" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EImagen no disponible%3C/text%3E%3C/svg%3E';
 
             parts.forEach((part, index) => {
                 const partData = part.Part;

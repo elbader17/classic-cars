@@ -293,6 +293,11 @@
             return url;
         }
 
+        function isGif(url) {
+            if (!url) return false;
+            return url.toLowerCase().includes('.gif') || url.toLowerCase().includes('format=gif');
+        }
+
         let currentParts = [];
         let isAuthenticated = false;
 
@@ -435,6 +440,14 @@
 
             setMainImage(getDriveImageUrl(images[0]));
 
+            const firstImageUrl = getDriveImageUrl(images[0]);
+            if (isGif(firstImageUrl)) {
+                zoomContainer.style.cursor = 'default';
+                modalMainImage.style.transform = 'scale(1)';
+            } else {
+                zoomContainer.style.cursor = 'crosshair';
+            }
+
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
@@ -458,9 +471,16 @@
 
         function setMainImage(url) {
             modalMainImage.src = url;
+            if (isGif(url)) {
+                zoomContainer.style.cursor = 'default';
+                modalMainImage.style.transform = 'scale(1)';
+            } else {
+                zoomContainer.style.cursor = 'crosshair';
+            }
         }
 
         zoomContainer.addEventListener('mousemove', (e) => {
+            if (isGif(modalMainImage.src)) return;
             const { left, top, width, height } = zoomContainer.getBoundingClientRect();
             const x = (e.clientX - left) / width * 100;
             const y = (e.clientY - top) / height * 100;

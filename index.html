@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club de Automóviles Clásicos - Repuestos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        heritage: {
+                            base: '#19120D',
+                            leather: '#281B13',
+                            saddle: '#6B4226',
+                            cream: '#F4EBD8',
+                            creamDark: '#E3D5B8',
+                            parchment: '#DBCFB0',
+                            red: '#C62828',
+                            redHover: '#A11D1D',
+                            gold: '#8C734A'
+                        }
+                    },
+                    backgroundImage: {
+                        'leather-texture': "url('data:image/svg+xml,%3Csvg width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cpath d=\\'M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h20v-2H22v-2h20v-2H22v-2h20v-2H22V8h20V6H22V4h20V2H22V0H20v20.5zm0 1.5H2v2h18v2H2v2h18v2H2v2h18v2H2v2h18v2H2v2h18v2H2v2h18v2H2v2h18v2H2v2h22v-20h-20v20h-2v-20zm20-1.5v2H22v-2h20zm0-2v2H22v-2h20zm0-2v2H22v-2h20zm0-2v2H22v-2h20zm0-2v2H22v-2h20zm0-2v2H22v-2h20zm0-2v2H22v-2h20zm0-2v2H22v-2h20zm0-2v2H22v-2h20zm0-2v2H22v-2h20z\\' fill=\\'%23000000\\' fill-opacity=\\'0.05\\' fill-rule=\\'evenodd\\'/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #19120D;
+            color: #F4EBD8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .leather-stitch {
+            position: relative;
+        }
+        .leather-stitch::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px dashed rgba(107, 66, 38, 0.6);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .input-classic {
+            background-color: #1F150F;
+            border: 1px solid #6B4226;
+            color: #F4EBD8;
+            transition: all 0.3s ease;
+        }
+        .input-classic:focus {
+            outline: none;
+            border-color: #DBCFB0;
+            box-shadow: 0 0 0 1px #DBCFB0;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #19120D; }
+        ::-webkit-scrollbar-thumb { background: #6B4226; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8C734A; }
+    </style>
+</head>
+<body class="selection:bg-heritage-red selection:text-white bg-leather-texture">
+
+    <div id="login-view" class="min-h-screen flex flex-col justify-center items-center p-6 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-heritage-base/50 to-heritage-base pointer-events-none z-0"></div>
+        
+        <div class="w-full max-w-md z-10 relative">
+            <div class="text-center mb-10">
+                <img src="logo.gif" alt="Club de Automóviles Clásicos" class="w-40 h-40 mx-auto mb-6 drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)] rounded-full">
+                
+                <h1 class="text-3xl text-heritage-cream font-serif mb-2">Acceso al Archivo</h1>
+                <p class="text-heritage-gold font-sans text-sm tracking-widest uppercase italic">Catálogo de Repuestos</p>
+            </div>
+
+            <form id="login-form" class="bg-heritage-leather border border-heritage-saddle p-8 shadow-2xl relative rounded-sm leather-stitch">
+                <div class="space-y-6 relative z-10">
+                    <div>
+                        <label class="block text-xs font-sans tracking-widest text-heritage-parchment uppercase mb-2">
+                            Socio / Usuario
+                        </label>
+                        <input 
+                            type="text" 
+                            class="w-full input-classic py-3 px-4 rounded-sm text-sm font-sans"
+                            placeholder="Ingrese su usuario"
+                            required
+                        />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-sans tracking-widest text-heritage-parchment uppercase mb-2">
+                            Clave
+                        </label>
+                        <input 
+                            type="password" 
+                            class="w-full input-classic py-3 px-4 rounded-sm text-sm font-sans"
+                            placeholder="••••••••"
+                            required
+                        />
+                    </div>
+
+                    <div class="pt-4">
+                        <button 
+                            type="submit"
+                            class="w-full bg-heritage-red hover:bg-heritage-redHover text-white font-serif font-medium tracking-wider py-3 px-4 transition-all duration-300 uppercase shadow-[0_4px_14px_rgba(198,40,40,0.4)] border border-red-900 rounded-sm"
+                        >
+                            Ingresar al Sistema
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="dashboard-view" class="hidden min-h-screen pb-20">
+        <header class="border-b-4 border-heritage-saddle bg-heritage-leather shadow-xl sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <img src="logo.gif" alt="Logo Club" class="w-12 h-12 rounded-full shadow-md bg-heritage-cream">
+                    <div>
+                        <h1 class="text-xl font-serif text-heritage-cream leading-tight">
+                            Club de Automóviles Clásicos
+                        </h1>
+                        <p class="text-[10px] text-heritage-gold tracking-widest uppercase font-bold">Argentina 1965</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <div class="hidden md:flex items-center gap-3">
+                        <i class="fa-solid fa-user-tie text-heritage-parchment text-lg"></i>
+                        <span class="text-sm text-heritage-parchment font-serif italic">Administrador</span>
+                    </div>
+                    <button 
+                        id="logout-btn"
+                        class="text-sm text-heritage-cream bg-heritage-base border border-heritage-saddle hover:bg-heritage-saddle hover:text-white px-4 py-2 rounded-sm transition-colors"
+                    >
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-6 mt-10">
+            <div class="bg-heritage-leather border border-heritage-saddle p-6 rounded-sm mb-10 shadow-lg leather-stitch">
+                <div class="relative z-10 flex flex-col lg:flex-row justify-between items-end gap-6">
+                    
+                    <div class="w-full lg:w-2/5 relative">
+                        <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-2 font-bold">Buscar Pieza</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-heritage-gold"></i>
+                            <input 
+                                id="search-input"
+                                type="text" 
+                                placeholder="Nombre, modelo o descripción..."
+                                class="w-full input-classic py-2.5 pl-10 pr-4 rounded-sm text-sm"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                        <div class="relative min-w-[200px]">
+                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-2 font-bold">Marca</label>
+                            <select 
+                                id="marca-filter"
+                                class="w-full appearance-none input-classic py-2.5 px-4 rounded-sm cursor-pointer text-sm"
+                            >
+                                <option value="Todas">Todas las marcas</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-4 bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
+                        </div>
+
+                        <div class="relative min-w-[200px]">
+                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-2 font-bold">Categoría</label>
+                            <select 
+                                id="tipo-filter"
+                                class="w-full appearance-none input-classic py-2.5 px-4 rounded-sm cursor-pointer text-sm"
+                            >
+                                <option value="Todos">Todas las categorías</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-4 bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6 flex justify-between items-center border-b border-heritage-saddle pb-2">
+                <h2 class="text-lg font-serif text-heritage-cream italic">
+                    Catálogo de Repuestos Disponibles
+                </h2>
+                <p class="text-xs text-heritage-parchment font-sans">
+                    Mostrando <span id="results-count" class="text-heritage-gold font-bold text-sm">0</span> piezas
+                </p>
+            </div>
+
+            <div id="parts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        </main>
+    </div>
+
+    <div id="part-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-heritage-leather border-2 border-heritage-saddle w-full max-w-4xl max-h-[90vh] rounded-sm shadow-2xl flex flex-col overflow-hidden relative leather-stitch transform scale-95 transition-transform duration-300" id="modal-content">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-50 bg-heritage-base/80 hover:bg-heritage-red text-heritage-cream w-8 h-8 flex items-center justify-center rounded-sm border border-heritage-saddle transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex flex-col md:flex-row h-full overflow-y-auto overflow-x-hidden md:overflow-hidden relative z-10">
+                
+                <div class="w-full md:w-1/2 bg-[#140e0a] border-b md:border-b-0 md:border-r-2 border-heritage-saddle flex flex-col">
+                    <div id="zoom-container" class="relative w-full h-64 md:h-80 overflow-hidden cursor-crosshair group bg-black">
+                        <img id="modal-main-image" src="" alt="Vista principal" class="w-full h-full object-cover transition-transform duration-100 ease-out" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors pointer-events-none flex items-center justify-center">
+                            <i class="fa-solid fa-magnifying-glass text-white/50 text-3xl group-hover:opacity-0 transition-opacity"></i>
+                        </div>
+                    </div>
+                    
+                    <div id="modal-thumbnails" class="flex gap-2 p-3 bg-heritage-base overflow-x-auto">
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 bg-heritage-creamDark flex flex-col">
+                    <div class="p-6 md:p-8 flex-1 overflow-y-auto">
+                        <div class="border-b-2 border-heritage-saddle/30 pb-4 mb-6">
+                            <h2 id="modal-title" class="text-3xl font-serif font-bold text-heritage-leather leading-tight mb-2"></h2>
+                            <p class="text-xs font-sans tracking-widest text-heritage-saddle uppercase font-bold">Ref. <span id="modal-id"></span></p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-6 gap-x-4 mb-8">
+                            <div>
+                                <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-1">Fabricante</span>
+                                <span id="modal-marca" class="font-serif italic text-heritage-base text-lg"></span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-1">Modelo / Año</span>
+                                <span id="modal-modelo" class="font-serif text-heritage-base text-lg"></span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-1">Categoría</span>
+                                <span id="modal-tipo" class="font-serif text-heritage-base text-lg"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold mb-2">Notas del Archivo</span>
+                            <p id="modal-descripcion" class="text-sm font-sans text-heritage-leather/90 leading-relaxed text-justify"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-heritage-parchment p-4 border-t-2 border-heritage-saddle/20 flex justify-end">
+                        <button onclick="closeModal()" class="bg-heritage-base hover:bg-heritage-leather text-heritage-cream font-serif tracking-wider px-6 py-2 rounded-sm border border-heritage-saddle transition-colors shadow-md text-sm">
+                            Volver al Catálogo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://classic-car-search-983986360116.us-central1.run.app';
+
+        let currentParts = [];
+        let isAuthenticated = false;
+
+        async function apiLogin(username, password) {
+            const response = await fetch(`${API_BASE}/api/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+                credentials: 'include'
+            });
+            const data = await response.json();
+            if (data.success) {
+                isAuthenticated = true;
+                return true;
+            }
+            return false;
+        }
+
+        async function apiLogout() {
+            await fetch(`${API_BASE}/api/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+            isAuthenticated = false;
+        }
+
+        async function apiGetParts(query = '', brand = '', type = '') {
+            const params = new URLSearchParams();
+            if (query) params.append('q', query);
+            if (brand) params.append('brand', brand);
+            if (type) params.append('type', type);
+
+            const response = await fetch(`${API_BASE}/api/parts?${params}`, {
+                credentials: 'include'
+            });
+
+            if (response.status === 401) {
+                await apiLogout();
+                showLoginView();
+                return null;
+            }
+
+            const data = await response.json();
+            return data.success ? data.data : null;
+        }
+
+        const loginView = document.getElementById('login-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        const loginForm = document.getElementById('login-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        const searchInput = document.getElementById('search-input');
+        const marcaFilter = document.getElementById('marca-filter');
+        const tipoFilter = document.getElementById('tipo-filter');
+        const partsContainer = document.getElementById('parts-container');
+        const resultsCount = document.getElementById('results-count');
+
+        const modal = document.getElementById('part-modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalMainImage = document.getElementById('modal-main-image');
+        const modalThumbnails = document.getElementById('modal-thumbnails');
+        const zoomContainer = document.getElementById('zoom-container');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = loginForm.querySelector('input[type="text"]').value;
+            const password = loginForm.querySelector('input[type="password"]').value;
+
+            const success = await apiLogin(username, password);
+            if (success) {
+                showDashboard();
+            } else {
+                alert('Usuario o contraseña incorrectos');
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            await apiLogout();
+            showLoginView();
+        });
+
+        function showLoginView() {
+            dashboardView.classList.add('hidden');
+            loginView.classList.remove('hidden');
+            loginForm.reset();
+        }
+
+        async function showDashboard() {
+            loginView.classList.add('hidden');
+            dashboardView.classList.remove('hidden');
+            
+            const data = await apiGetParts();
+            if (data) {
+                currentParts = data.results;
+                renderParts(currentParts);
+                populateFilters(data.availableBrands, data.availableTypes);
+            }
+        }
+
+        function populateFilters(brands, types) {
+            const marcaSelect = marcaFilter;
+            const currentBrand = marcaSelect.value;
+            marcaSelect.innerHTML = '<option value="Todas">Todas las marcas</option>';
+            brands.forEach(brand => {
+                marcaSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
+            });
+            marcaSelect.value = currentBrand;
+
+            const tipoSelect = tipoFilter;
+            const currentType = tipoSelect.value;
+            tipoSelect.innerHTML = '<option value="Todos">Todas las categorías</option>';
+            types.forEach(type => {
+                tipoSelect.innerHTML += `<option value="${type}">${type}</option>`;
+            });
+            tipoSelect.value = currentType;
+        }
+
+        function openModal(part) {
+            document.getElementById('modal-title').textContent = part.Name;
+            document.getElementById('modal-id').textContent = part.ID;
+            document.getElementById('modal-marca').textContent = part.Brand;
+            document.getElementById('modal-modelo').textContent = part.Model + " ('" + part.Year.toString().substring(2) + ")";
+            document.getElementById('modal-tipo').textContent = part.Type;
+            document.getElementById('modal-descripcion').textContent = part.Description || 'Sin descripción disponible';
+
+            const defaultImage = 'https://images.unsplash.com/photo-1486262715619-670810aa70f2?auto=format&fit=crop&q=80&w=1200';
+            
+            const images = part.ImagenesArr && part.ImagenesArr.length > 0 ? part.ImagenesArr : [defaultImage];
+            
+            modalThumbnails.innerHTML = '';
+            images.forEach((imgUrl, index) => {
+                const safeUrl = imgUrl.replace(/'/g, "\\'");
+                const thumbHTML = `
+                    <button onclick="setMainImage('${safeUrl}')" class="flex-shrink-0 w-20 h-16 border-2 border-transparent hover:border-heritage-gold focus:border-heritage-gold focus:outline-none transition-colors rounded-sm overflow-hidden">
+                        <img src="${imgUrl}" class="w-full h-full object-cover" alt="Vista ${index + 1}">
+                    </button>
+                `;
+                modalThumbnails.insertAdjacentHTML('beforeend', thumbHTML);
+            });
+
+            setMainImage(images[0]);
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        function setMainImage(url) {
+            modalMainImage.src = url;
+        }
+
+        zoomContainer.addEventListener('mousemove', (e) => {
+            const { left, top, width, height } = zoomContainer.getBoundingClientRect();
+            const x = (e.clientX - left) / width * 100;
+            const y = (e.clientY - top) / height * 100;
+            
+            modalMainImage.style.transformOrigin = `${x}% ${y}%`;
+            modalMainImage.style.transform = 'scale(2.5)';
+        });
+
+        zoomContainer.addEventListener('mouseleave', () => {
+            modalMainImage.style.transform = 'scale(1)';
+            setTimeout(() => {
+                modalMainImage.style.transformOrigin = 'center center';
+            }, 100);
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        function renderParts(parts) {
+            partsContainer.innerHTML = '';
+            resultsCount.textContent = parts.length;
+
+            if (parts.length === 0) {
+                partsContainer.innerHTML = `
+                    <div class="col-span-full py-20 text-center">
+                        <i class="fa-solid fa-magnifying-glass text-4xl text-heritage-saddle mb-4"></i>
+                        <h3 class="text-xl font-serif text-heritage-parchment">No se encontró la pieza</h3>
+                        <p class="text-heritage-gold mt-2 font-sans italic">Verifique los términos de búsqueda o filtros.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const defaultImage = 'https://images.unsplash.com/photo-1486262715619-670810aa70f2?auto=format&fit=crop&q=80&w=1200';
+
+            parts.forEach((part, index) => {
+                const partData = part.Part;
+                const images = partData.ImagenesArr && partData.ImagenesArr.length > 0 ? partData.ImagenesArr : [defaultImage];
+                const cardImage = images[0];
+                const cardHTML = `
+                    <div onclick="openModalByIndex(${index})" class="group bg-heritage-leather border border-heritage-saddle rounded-sm overflow-hidden flex flex-col shadow-xl leather-stitch hover:-translate-y-1 transition-transform duration-300 cursor-pointer">
+                        <div class="relative z-10 flex flex-col h-full">
+                            
+                            <div class="relative h-48 overflow-hidden bg-[#140e0a] border-b-2 border-heritage-saddle">
+                                <img 
+                                    src="${cardImage}" 
+                                    alt="${partData.Name}" 
+                                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                                />
+                                ${images.length > 1 ? `
+                                <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-sm border border-heritage-saddle/50 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-images text-heritage-cream text-[10px]"></i>
+                                    <span class="text-[10px] text-heritage-cream font-sans">${images.length}</span>
+                                </div>
+                                ` : ''}
+                            </div>
+
+                            <div class="p-5 flex-1 flex flex-col bg-heritage-creamDark text-heritage-base">
+                                <h3 class="text-xl font-serif font-bold mb-3 text-heritage-leather group-hover:text-heritage-redHover transition-colors">
+                                    ${partData.Name}
+                                </h3>
+                                
+                                <div class="grid grid-cols-2 gap-y-4 gap-x-2 mb-4 text-sm font-sans">
+                                    <div>
+                                        <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Marca</span>
+                                        <span class="font-serif italic text-heritage-base">
+                                            ${partData.Brand}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Modelo / Año</span>
+                                        <span class="font-serif text-heritage-base">
+                                            ${partData.Model} ('${partData.Year.toString().substring(2)})
+                                        </span>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <span class="block text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Categoría</span>
+                                        <span class="font-serif text-heritage-base font-medium">
+                                            ${partData.Type}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-auto pt-3 border-t border-heritage-saddle/30 flex justify-between items-center">
+                                    <span class="text-[10px] font-sans text-heritage-saddle uppercase tracking-widest font-bold">Ver expediente completo</span>
+                                    <i class="fa-solid fa-arrow-right text-heritage-red text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                `;
+                partsContainer.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        function openModalByIndex(index) {
+            if (currentParts[index]) openModal(currentParts[index].Part);
+        }
+
+        async function filterParts() {
+            const term = searchInput.value;
+            const marca = marcaFilter.value;
+            const tipo = tipoFilter.value;
+
+            const data = await apiGetParts(term, marca === 'Todas' ? '' : marca, tipo === 'Todos' ? '' : tipo);
+            if (data) {
+                currentParts = data.results;
+                renderParts(currentParts);
+            }
+        }
+
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(filterParts, 300);
+        });
+        marcaFilter.addEventListener('change', filterParts);
+        tipoFilter.addEventListener('change', filterParts);
+
+        (async function init() {
+            const data = await apiGetParts();
+            if (data) {
+                showDashboard();
+            } else {
+                showLoginView();
+            }
+        })();
+
+    </script>
+</body>
+</html>

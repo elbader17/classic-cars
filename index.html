@@ -280,13 +280,28 @@
         function getDriveImageUrl(url) {
             if (!url || typeof url !== 'string') return url;
             
-            const driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            if (driveMatch) {
+            if (!url.includes('drive.google.com')) return url;
+            
+            let driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (driveMatch && driveMatch[1].length > 10) {
                 return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
             }
             
+            let fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (fileMatch && fileMatch[1].length > 10) {
+                return `https://drive.google.com/uc?export=view&id=${fileMatch[1]}`;
+            }
+            
             const ucMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
-            if (ucMatch && url.includes('drive.google.com')) {
+            if (ucMatch && ucMatch[1].length > 10) {
+                return `https://drive.google.com/uc?export=view&id=${ucMatch[1]}`;
+            }
+            
+            return url;
+        }
+            
+            const ucMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
+            if (ucMatch) {
                 return `https://drive.google.com/uc?export=view&id=${ucMatch[1]}`;
             }
             

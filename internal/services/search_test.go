@@ -59,10 +59,13 @@ func TestFuzzySearch(t *testing.T) {
 }
 
 func TestFuzzySearchWithFilters(t *testing.T) {
+	price500 := 500.00
+	price300 := 300.00
+	price150 := 150.00
 	parts := []models.Part{
-		{ID: "1", Name: "Carburador Ford V8", Brand: "Ford", Type: "Motor", Price: 500},
-		{ID: "2", Name: "Radiador Chevrolet", Brand: "Chevrolet", Type: "Enfriamiento", Price: 300},
-		{ID: "3", Name: "Bomba de agua Ford", Brand: "Ford", Type: "Enfriamiento", Price: 150},
+		{ID: "1", Name: "Carburador Ford V8", Brand: "Ford", Type: "Motor", Price: &price500},
+		{ID: "2", Name: "Radiador Chevrolet", Brand: "Chevrolet", Type: "Enfriamiento", Price: &price300},
+		{ID: "3", Name: "Bomba de agua Ford", Brand: "Ford", Type: "Enfriamiento", Price: &price150},
 	}
 
 	svc := NewSearchService()

@@ -195,7 +195,12 @@ func parseRow(headers []interface{}, row []interface{}) models.Part {
 		case "año", "ano":
 			part.Year = value
 		case "precio":
-			fmt.Sscanf(value, "%f", &part.Price)
+			if value != "" {
+				var price float64
+				if _, err := fmt.Sscanf(value, "%f", &price); err == nil {
+					part.Price = &price
+				}
+			}
 		case "descripcion":
 			part.Description = value
 		case "imagenes":

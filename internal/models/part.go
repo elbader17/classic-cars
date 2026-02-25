@@ -7,7 +7,7 @@ type Part struct {
 	Type        string   `quire:"Tipo" json:"Type"`
 	Model       string   `quire:"Modelo" json:"Model"`
 	Year        string   `quire:"Año" json:"Year"`
-	Price       float64  `quire:"Precio" json:"Price"`
+	Price       *float64 `quire:"Precio" json:"Price,omitempty"`
 	Description string   `quire:"Descripcion" json:"Description"`
 	Estado      string   `quire:"Estado" json:"Estado"`
 	Imagenes    string   `quire:"Imagenes" json:"-"`

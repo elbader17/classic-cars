@@ -113,9 +113,10 @@ func TestMockSheetsService_GetUsers(t *testing.T) {
 }
 
 func TestMockSheetsService_CustomData(t *testing.T) {
+	price100 := 100.00
 	customData := &MockData{
 		Parts: []models.Part{
-			{ID: "1", Name: "Test Part", Brand: "Test", Type: "Test", Price: 100},
+			{ID: "1", Name: "Test Part", Brand: "Test", Type: "Test", Price: &price100},
 		},
 		Users: []models.User{
 			{Username: "testuser", Password: "testpass"},

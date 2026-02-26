@@ -128,11 +128,14 @@
                         <button 
                             type="submit"
                             id="login-btn"
-                            class="w-full bg-heritage-red hover:bg-heritage-redHover text-white font-serif font-medium tracking-wider py-2.5 sm:py-3 px-3 sm:px-4 transition-all duration-300 uppercase shadow-[0_4px_14px_rgba(198,40,40,0.4)] border border-red-900 rounded-sm text-sm disabled:opacity-70"
+                            class="w-full bg-heritage-red hover:bg-heritage-redHover text-white font-serif font-medium tracking-wider py-2.5 sm:py-3 px-3 sm:px-4 transition-all duration-300 uppercase shadow-[0_4px_14px_rgba(198,40,40,0.4)] border border-red-900 rounded-sm text-sm disabled:opacity-70 relative overflow-hidden"
                         >
                             <span id="login-btn-text">Ingresar al Sistema</span>
-                            <div id="login-spinner" class="hidden absolute inset-0 flex items-center justify-center">
-                                <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            <div id="login-spinner" class="hidden absolute inset-0 bg-heritage-red flex items-center justify-center">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-5 h-5 border-2 border-heritage-gold border-t-transparent rounded-full animate-spin"></div>
+                                    <span class="text-heritage-gold font-serif text-xs tracking-wider">Verificando...</span>
+                                </div>
                             </div>
                         </button>
                     </div>

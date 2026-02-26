@@ -24,27 +24,43 @@ func (s *SearchService) FuzzySearch(query string, parts []models.Part) []models.
 	}
 
 	query = strings.ToLower(strings.TrimSpace(query))
-	targets := make([]string, len(parts))
-	nameToPart := make(map[string]models.Part)
+	results := make([]models.SearchResult, 0, len(parts))
 
-	for i, p := range parts {
-		name := strings.ToLower(p.Name)
-		targets[i] = name
-		nameToPart[name] = p
-	}
+	for _, p := range parts {
+		searchFields := []string{
+			strings.ToLower(p.Name),
+			strings.ToLower(p.Brand),
+			strings.ToLower(p.Type),
+			strings.ToLower(p.Model),
+			strings.ToLower(p.Year),
+			strings.ToLower(p.Description),
+		}
 
-	ranks := fuzzy.RankFind(query, targets)
-
-	results := make([]models.SearchResult, 0, len(ranks))
-	for _, r := range ranks {
-		if part, ok := nameToPart[r.Target]; ok {
-			score := calculateScore(query, r.Target, r.Distance)
-			if score >= s.minScore {
-				results = append(results, models.SearchResult{
-					Part:  part,
-					Score: score,
-				})
+		bestScore := 0
+		for _, field := range searchFields {
+			if field == "" {
+				continue
 			}
+
+			ranks := fuzzy.RankFind(query, []string{field})
+			if len(ranks) > 0 {
+				r := ranks[0]
+				score := calculateScore(query, r.Target, r.Distance)
+				if score > bestScore {
+					bestScore = score
+				}
+			}
+
+			if strings.Contains(field, query) {
+				bestScore = max(bestScore, 60)
+			}
+		}
+
+		if bestScore >= s.minScore {
+			results = append(results, models.SearchResult{
+				Part:  p,
+				Score: bestScore,
+			})
 		}
 	}
 
@@ -100,6 +116,13 @@ func calculateScore(query, target string, distance int) int {
 
 func min(a, b int) int {
 	if a < b {
+		return a
+	}
+	return b
+}
+
+func max(a, b int) int {
+	if a > b {
 		return a
 	}
 	return b

@@ -124,12 +124,16 @@
                         />
                     </div>
 
-                    <div class="pt-2 sm:pt-4">
+                    <div class="pt-2 sm:pt-4 relative">
                         <button 
                             type="submit"
-                            class="w-full bg-heritage-red hover:bg-heritage-redHover text-white font-serif font-medium tracking-wider py-2.5 sm:py-3 px-3 sm:px-4 transition-all duration-300 uppercase shadow-[0_4px_14px_rgba(198,40,40,0.4)] border border-red-900 rounded-sm text-sm"
+                            id="login-btn"
+                            class="w-full bg-heritage-red hover:bg-heritage-redHover text-white font-serif font-medium tracking-wider py-2.5 sm:py-3 px-3 sm:px-4 transition-all duration-300 uppercase shadow-[0_4px_14px_rgba(198,40,40,0.4)] border border-red-900 rounded-sm text-sm disabled:opacity-70"
                         >
-                            Ingresar al Sistema
+                            <span id="login-btn-text">Ingresar al Sistema</span>
+                            <div id="login-spinner" class="hidden absolute inset-0 flex items-center justify-center">
+                                <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            </div>
                         </button>
                     </div>
                 </div>
@@ -390,12 +394,26 @@
             const username = loginForm.querySelector('input[type="text"]').value;
             const password = loginForm.querySelector('input[type="password"]').value;
 
-            const success = await apiLogin(username, password);
-            if (success) {
-                showDashboard();
-            } else {
-                alert('Usuario o contraseña incorrectos');
-            }
+            const loginBtn = document.getElementById('login-btn');
+            const loginBtnText = document.getElementById('login-btn-text');
+            const loginSpinner = document.getElementById('login-spinner');
+
+            loginBtn.disabled = true;
+            loginBtnText.classList.add('hidden');
+            loginSpinner.classList.remove('hidden');
+
+            setTimeout(async () => {
+                const success = await apiLogin(username, password);
+                loginBtn.disabled = false;
+                loginBtnText.classList.remove('hidden');
+                loginSpinner.classList.add('hidden');
+                
+                if (success) {
+                    showDashboard();
+                } else {
+                    alert('Usuario o contraseña incorrectos');
+                }
+            }, 1500);
         });
 
         logoutBtn.addEventListener('click', async () => {

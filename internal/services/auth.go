@@ -3,15 +3,12 @@ package services
 import (
 	"context"
 	"crypto/subtle"
-	"sync"
 
 	"github.com/eduardo/classicCarSearch/internal/models"
 )
 
 type AuthService struct {
-	usersCache []models.User
-	cacheMu    sync.RWMutex
-	provider   DataProvider
+	provider DataProvider
 }
 
 func NewAuthService(provider DataProvider) *AuthService {
@@ -37,34 +34,16 @@ func (a *AuthService) Authenticate(ctx context.Context, username, password strin
 }
 
 func (a *AuthService) GetUsers(ctx context.Context) ([]models.User, error) {
-	a.cacheMu.RLock()
-	if a.usersCache != nil {
-		a.cacheMu.RUnlock()
-		return a.usersCache, nil
-	}
-	a.cacheMu.RUnlock()
-
-	a.cacheMu.Lock()
-	defer a.cacheMu.Unlock()
-
 	users, err := a.provider.GetUsers(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	// Fallback: add default user if no users found in sheet
 	if len(users) == 0 {
 		users = []models.User{
 			{Username: "admin", Password: "admin123"},
 		}
 	}
 
-	a.usersCache = users
 	return users, nil
-}
-
-func (a *AuthService) ClearCache() {
-	a.cacheMu.Lock()
-	defer a.cacheMu.Unlock()
-	a.usersCache = nil
 }

@@ -485,7 +485,8 @@
 
             if (categoria && categoria !== 'Todos' && subcategoriasData[categoria]) {
                 subcategoriasData[categoria].forEach(sub => {
-                    subcategoriaSelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+                    const displaySub = sub.includes('/') ? sub.split('/')[1] : sub;
+                    subcategoriaSelect.innerHTML += `<option value="${sub}">${displaySub}</option>`;
                 });
             }
             subcategoriaSelect.value = currentSubcategoria;

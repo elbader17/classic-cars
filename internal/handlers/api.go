@@ -29,9 +29,10 @@ type LoginResponse struct {
 }
 
 type PartsResponse struct {
-	Results         []models.SearchResult `json:"results"`
-	AvailableBrands []string              `json:"availableBrands"`
-	AvailableTypes  []string              `json:"availableTypes"`
+	Results                []models.SearchResult `json:"results"`
+	AvailableBrands        []string              `json:"availableBrands"`
+	AvailableCategories    []string              `json:"availableCategories"`
+	AvailableSubcategorias map[string][]string   `json:"availableSubcategorias"`
 }
 
 type APIHandler struct {
@@ -127,10 +128,12 @@ func (h *APIHandler) GetParts(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("q")
 	brand := r.URL.Query().Get("brand")
 	partType := r.URL.Query().Get("type")
+	subcategoria := r.URL.Query().Get("subcategoria")
 
 	filters := models.FilterOptions{
-		Brand: brand,
-		Type:  partType,
+		Brand:        brand,
+		Category:     partType,
+		Subcategoria: subcategoria,
 	}
 
 	parts, err := h.provider.GetAllParts(ctx)
@@ -141,23 +144,29 @@ func (h *APIHandler) GetParts(w http.ResponseWriter, r *http.Request) {
 
 	results := h.search.FuzzySearchWithFilters(query, parts, filters)
 
-	// Get filter options
 	brands, err := h.provider.GetUniqueBrands(ctx)
 	if err != nil {
 		writeJSONError(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	types, err := h.provider.GetUniqueTypes(ctx)
+	types, err := h.provider.GetUniqueCategories(ctx)
+	if err != nil {
+		writeJSONError(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	subcategorias, err := h.provider.GetSubcategoriasByCategoria(ctx)
 	if err != nil {
 		writeJSONError(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	writeJSONSuccess(w, PartsResponse{
-		Results:         results,
-		AvailableBrands: brands,
-		AvailableTypes:  types,
+		Results:                results,
+		AvailableBrands:        brands,
+		AvailableCategories:    types,
+		AvailableSubcategorias: subcategorias,
 	})
 }
 
@@ -188,15 +197,22 @@ func (h *APIHandler) GetFilters(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	types, err := h.provider.GetUniqueTypes(ctx)
+	types, err := h.provider.GetUniqueCategories(ctx)
 	if err != nil {
 		writeJSONError(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	writeJSONSuccess(w, map[string][]string{
-		"brands": brands,
-		"types":  types,
+	subcategorias, err := h.provider.GetSubcategoriasByCategoria(ctx)
+	if err != nil {
+		writeJSONError(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	writeJSONSuccess(w, map[string]interface{}{
+		"brands":                 brands,
+		"types":                  types,
+		"availableSubcategorias": subcategorias,
 	})
 }
 

@@ -100,10 +100,10 @@ func (s *SheetsService) GetFilteredParts(ctx context.Context, filters models.Fil
 		parts = filtered
 	}
 
-	if filters.Type != "" {
+	if filters.Category != "" {
 		var filtered []models.Part
 		for _, p := range parts {
-			if p.Type == filters.Type {
+			if p.Category == filters.Category {
 				filtered = append(filtered, p)
 			}
 		}
@@ -130,7 +130,7 @@ func (s *SheetsService) GetUniqueBrands(ctx context.Context) ([]string, error) {
 	return brands, nil
 }
 
-func (s *SheetsService) GetUniqueTypes(ctx context.Context) ([]string, error) {
+func (s *SheetsService) GetUniqueCategories(ctx context.Context) ([]string, error) {
 	parts, err := s.GetAllParts(ctx)
 	if err != nil {
 		return nil, err
@@ -139,12 +139,35 @@ func (s *SheetsService) GetUniqueTypes(ctx context.Context) ([]string, error) {
 	seen := make(map[string]bool)
 	var types []string
 	for _, p := range parts {
-		if p.Type != "" && !seen[p.Type] {
-			seen[p.Type] = true
-			types = append(types, p.Type)
+		if p.Category != "" && !seen[p.Category] {
+			seen[p.Category] = true
+			types = append(types, p.Category)
 		}
 	}
 	return types, nil
+}
+
+func (s *SheetsService) GetSubcategoriasByCategoria(ctx context.Context) (map[string][]string, error) {
+	parts, err := s.GetAllParts(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[string][]string)
+	seen := make(map[string]map[string]bool)
+
+	for _, p := range parts {
+		if p.Category != "" && p.Subcategoria != "" {
+			if seen[p.Category] == nil {
+				seen[p.Category] = make(map[string]bool)
+			}
+			if !seen[p.Category][p.Subcategoria] {
+				seen[p.Category][p.Subcategoria] = true
+				result[p.Category] = append(result[p.Category], p.Subcategoria)
+			}
+		}
+	}
+	return result, nil
 }
 
 func (s *SheetsService) GetUsers(ctx context.Context) ([]models.User, error) {
@@ -188,8 +211,10 @@ func parseRow(headers []interface{}, row []interface{}) models.Part {
 			part.Name = value
 		case "marca":
 			part.Brand = value
-		case "tipo":
-			part.Type = value
+		case "categoria":
+			part.Category = value
+		case "subcategoria":
+			part.Subcategoria = value
 		case "modelo":
 			part.Model = value
 		case "año", "ano":

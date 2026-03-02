@@ -212,6 +212,17 @@
                             </select>
                             <i class="fa-solid fa-chevron-down absolute right-3 sm:right-4 bottom-2.5 sm:bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
                         </div>
+
+                        <div class="relative min-w-[140px] sm:min-w-[200px] flex-1 sm:flex-initial">
+                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-1 sm:mb-2 font-bold">Subcategoría</label>
+                            <select 
+                                id="subcategoria-filter"
+                                class="w-full appearance-none input-classic py-2 sm:py-2.5 px-3 sm:px-4 rounded-sm cursor-pointer text-sm"
+                            >
+                                <option value="Todos">Todas</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-3 sm:right-4 bottom-2.5 sm:bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -356,11 +367,12 @@
             isAuthenticated = false;
         }
 
-        async function apiGetParts(query = '', brand = '', type = '') {
+        async function apiGetParts(query = '', brand = '', category = '', subcategoria = '') {
             const params = new URLSearchParams();
             if (query) params.append('q', query);
             if (brand) params.append('brand', brand);
-            if (type) params.append('type', type);
+            if (category) params.append('type', category);
+            if (subcategoria) params.append('subcategoria', subcategoria);
 
             const response = await fetch(`${API_BASE}/api/parts?${params}`, {
                 credentials: 'include'
@@ -383,6 +395,7 @@
         const searchInput = document.getElementById('search-input');
         const marcaFilter = document.getElementById('marca-filter');
         const tipoFilter = document.getElementById('tipo-filter');
+        const subcategoriaFilter = document.getElementById('subcategoria-filter');
         const partsContainer = document.getElementById('parts-container');
         const resultsCount = document.getElementById('results-count');
 
@@ -438,11 +451,14 @@
             if (data) {
                 currentParts = data.results;
                 renderParts(currentParts);
-                populateFilters(data.availableBrands, data.availableTypes);
+                populateFilters(data.availableBrands, data.availableCategories, data.availableSubcategorias || {});
             }
         }
 
-        function populateFilters(brands, types) {
+        let subcategoriasData = {};
+
+        function populateFilters(brands, types, subcategorias = {}) {
+            subcategoriasData = subcategorias;
             const marcaSelect = marcaFilter;
             const currentBrand = marcaSelect.value;
             marcaSelect.innerHTML = '<option value="Todas">Todas las marcas</option>';
@@ -458,6 +474,21 @@
                 tipoSelect.innerHTML += `<option value="${type}">${type}</option>`;
             });
             tipoSelect.value = currentType;
+
+            updateSubcategorias(tipoSelect.value);
+        }
+
+        function updateSubcategorias(categoria) {
+            const subcategoriaSelect = subcategoriaFilter;
+            const currentSubcategoria = subcategoriaSelect.value;
+            subcategoriaSelect.innerHTML = '<option value="Todos">Todas las subcategorías</option>';
+
+            if (categoria && categoria !== 'Todos' && subcategoriasData[categoria]) {
+                subcategoriasData[categoria].forEach(sub => {
+                    subcategoriaSelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+                });
+            }
+            subcategoriaSelect.value = currentSubcategoria;
         }
 
         function openModal(part) {
@@ -635,8 +666,14 @@
             const term = searchInput.value;
             const marca = marcaFilter.value;
             const tipo = tipoFilter.value;
+            const subcategoria = subcategoriaFilter.value;
 
-            const data = await apiGetParts(term, marca === 'Todas' ? '' : marca, tipo === 'Todos' ? '' : tipo);
+            const data = await apiGetParts(
+                term, 
+                marca === 'Todas' ? '' : marca, 
+                tipo === 'Todos' ? '' : tipo,
+                subcategoria === 'Todos' ? '' : subcategoria
+            );
             if (data) {
                 currentParts = data.results;
                 renderParts(currentParts);
@@ -649,7 +686,11 @@
             searchTimeout = setTimeout(filterParts, 300);
         });
         marcaFilter.addEventListener('change', filterParts);
-        tipoFilter.addEventListener('change', filterParts);
+        tipoFilter.addEventListener('change', () => {
+            updateSubcategorias(tipoFilter.value);
+            filterParts();
+        });
+        subcategoriaFilter.addEventListener('change', filterParts);
 
         (async function init() {
             const data = await apiGetParts();

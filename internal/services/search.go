@@ -30,7 +30,7 @@ func (s *SearchService) FuzzySearch(query string, parts []models.Part) []models.
 		searchFields := []string{
 			strings.ToLower(p.Name),
 			strings.ToLower(p.Brand),
-			strings.ToLower(p.Type),
+			strings.ToLower(p.Category),
 			strings.ToLower(p.Model),
 			strings.ToLower(p.Year),
 			strings.ToLower(p.Description),
@@ -83,7 +83,10 @@ func applyFilters(parts []models.Part, filters models.FilterOptions) []models.Pa
 		if filters.Brand != "" && p.Brand != filters.Brand {
 			continue
 		}
-		if filters.Type != "" && p.Type != filters.Type {
+		if filters.Category != "" && p.Category != filters.Category {
+			continue
+		}
+		if filters.Subcategoria != "" && p.Subcategoria != filters.Subcategoria {
 			continue
 		}
 		result = append(result, p)

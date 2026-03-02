@@ -139,7 +139,7 @@ func (s *SheetsService) GetUniqueCategories(ctx context.Context) ([]string, erro
 	seen := make(map[string]bool)
 	var types []string
 	for _, p := range parts {
-		if p.Category != "" && !seen[p.Category] {
+		if p.Category != "" && p.Category != "vacío" && !seen[p.Category] {
 			seen[p.Category] = true
 			types = append(types, p.Category)
 		}
@@ -157,7 +157,7 @@ func (s *SheetsService) GetSubcategoriasByCategoria(ctx context.Context) (map[st
 	seen := make(map[string]map[string]bool)
 
 	for _, p := range parts {
-		if p.Category != "" && p.Subcategoria != "" {
+		if p.Category != "" && p.Category != "vacío" && p.Subcategoria != "" && p.Subcategoria != "vacío" {
 			if seen[p.Category] == nil {
 				seen[p.Category] = make(map[string]bool)
 			}

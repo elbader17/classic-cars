@@ -99,7 +99,15 @@ func (m *MockSheetsService) GetUniqueBrands(ctx context.Context) ([]string, erro
 
 func (m *MockSheetsService) GetUniqueCategories(ctx context.Context) ([]string, error) {
 	parts := filterActiveParts(m.data.Parts)
-	return uniqueValues(parts, func(p models.Part) string { return p.Category }), nil
+	seen := make(map[string]bool)
+	var categories []string
+	for _, p := range parts {
+		if p.Category != "" && p.Category != "vacío" && !seen[p.Category] {
+			seen[p.Category] = true
+			categories = append(categories, p.Category)
+		}
+	}
+	return categories, nil
 }
 
 func (m *MockSheetsService) GetSubcategoriasByCategoria(ctx context.Context) (map[string][]string, error) {
@@ -108,7 +116,7 @@ func (m *MockSheetsService) GetSubcategoriasByCategoria(ctx context.Context) (ma
 	seen := make(map[string]map[string]bool)
 
 	for _, p := range parts {
-		if p.Category != "" && p.Subcategoria != "" {
+		if p.Category != "" && p.Category != "vacío" && p.Subcategoria != "" && p.Subcategoria != "vacío" {
 			if seen[p.Category] == nil {
 				seen[p.Category] = make(map[string]bool)
 			}

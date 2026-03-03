@@ -463,7 +463,9 @@
             const currentBrand = marcaSelect.value;
             marcaSelect.innerHTML = '<option value="Todas">Todas las marcas</option>';
             brands.forEach(brand => {
-                marcaSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
+                if (brand && !brand.toLowerCase().includes('vacío')) {
+                    marcaSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
+                }
             });
             marcaSelect.value = currentBrand;
 
@@ -471,8 +473,10 @@
             const currentType = tipoSelect.value;
             tipoSelect.innerHTML = '<option value="Todos">Todas las categorías</option>';
             types.forEach(type => {
-                const displayText = type.replace(/_/g, ' ');
-                tipoSelect.innerHTML += `<option value="${type}">${displayText}</option>`;
+                if (type && !type.toLowerCase().includes('vacío')) {
+                    const displayText = type.replace(/_/g, ' ');
+                    tipoSelect.innerHTML += `<option value="${type}">${displayText}</option>`;
+                }
             });
             tipoSelect.value = currentType;
 
@@ -486,8 +490,10 @@
 
             if (categoria && categoria !== 'Todos' && subcategoriasData[categoria]) {
                 subcategoriasData[categoria].forEach(sub => {
-                    const displayText = sub.replace(/_/g, ' ');
-                    subcategoriaSelect.innerHTML += `<option value="${sub}">${displayText}</option>`;
+                    if (sub && !sub.toLowerCase().includes('vacío')) {
+                        const displayText = sub.replace(/_/g, ' ');
+                        subcategoriaSelect.innerHTML += `<option value="${sub}">${displayText}</option>`;
+                    }
                 });
             }
             subcategoriaSelect.value = currentSubcategoria;

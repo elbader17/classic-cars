@@ -471,7 +471,8 @@
             const currentType = tipoSelect.value;
             tipoSelect.innerHTML = '<option value="Todos">Todas las categorías</option>';
             types.forEach(type => {
-                tipoSelect.innerHTML += `<option value="${type}">${type}</option>`;
+                const displayText = type.replace(/_/g, ' ');
+                tipoSelect.innerHTML += `<option value="${type}">${displayText}</option>`;
             });
             tipoSelect.value = currentType;
 
@@ -485,7 +486,8 @@
 
             if (categoria && categoria !== 'Todos' && subcategoriasData[categoria]) {
                 subcategoriasData[categoria].forEach(sub => {
-                    subcategoriaSelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+                    const displayText = sub.replace(/_/g, ' ');
+                    subcategoriaSelect.innerHTML += `<option value="${sub}">${displayText}</option>`;
                 });
             }
             subcategoriaSelect.value = currentSubcategoria;
@@ -496,7 +498,7 @@
             document.getElementById('modal-id').textContent = part.ID;
             document.getElementById('modal-marca').textContent = part.Brand;
             document.getElementById('modal-modelo').textContent = part.Model + " ('" + part.Year.toString().substring(2) + ")";
-            document.getElementById('modal-tipo').textContent = part.Category;
+            document.getElementById('modal-tipo').textContent = part.Category.replace(/_/g, ' ');
             document.getElementById('modal-descripcion').textContent = part.Description || 'Sin descripción disponible';
 
             const defaultImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"%3E%3Crect fill="%2319120D" width="400" height="300"/%3E%3Ctext fill="%236B4226" font-family="sans-serif" font-size="16" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EImagen no disponible%3C/text%3E%3C/svg%3E';
@@ -640,7 +642,7 @@
                                     <div class="col-span-2">
                                         <span class="block text-[8px] sm:text-[10px] text-heritage-saddle uppercase tracking-widest font-bold">Categoría</span>
                                         <span class="font-serif text-heritage-base font-medium text-sm">
-                                            ${partData.Type}
+                                            ${partData.Type ? partData.Type.replace(/_/g, ' ') : ''}
                                         </span>
                                     </div>
                                 </div>

@@ -122,7 +122,7 @@ func (s *SheetsService) GetUniqueBrands(ctx context.Context) ([]string, error) {
 	seen := make(map[string]bool)
 	var brands []string
 	for _, p := range parts {
-		if p.Brand != "" && !seen[p.Brand] {
+		if p.Brand != "" && !strings.EqualFold(p.Brand, "vacío") && !seen[p.Brand] {
 			seen[p.Brand] = true
 			brands = append(brands, p.Brand)
 		}

@@ -204,23 +204,23 @@
                         </div>
 
                         <div class="relative min-w-[140px] sm:min-w-[200px] flex-1 sm:flex-initial">
-                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-1 sm:mb-2 font-bold">Marca</label>
-                            <select 
-                                id="marca-filter"
-                                class="w-full appearance-none input-classic py-2 sm:py-2.5 px-3 sm:px-4 rounded-sm cursor-pointer text-sm"
-                            >
-                                <option value="Todas">Todas</option>
-                            </select>
-                            <i class="fa-solid fa-chevron-down absolute right-3 sm:right-4 bottom-2.5 sm:bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
-                        </div>
-
-                        <div class="relative min-w-[140px] sm:min-w-[200px] flex-1 sm:flex-initial">
                             <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-1 sm:mb-2 font-bold">Subcategoría</label>
                             <select 
                                 id="subcategoria-filter"
                                 class="w-full appearance-none input-classic py-2 sm:py-2.5 px-3 sm:px-4 rounded-sm cursor-pointer text-sm"
                             >
                                 <option value="Todos">Todas</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-3 sm:right-4 bottom-2.5 sm:bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
+                        </div>
+
+                        <div class="relative min-w-[140px] sm:min-w-[200px] flex-1 sm:flex-initial">
+                            <label class="block text-[11px] text-heritage-parchment uppercase tracking-widest mb-1 sm:mb-2 font-bold">Marca</label>
+                            <select 
+                                id="marca-filter"
+                                class="w-full appearance-none input-classic py-2 sm:py-2.5 px-3 sm:px-4 rounded-sm cursor-pointer text-sm"
+                            >
+                                <option value="Todas">Todas</option>
                             </select>
                             <i class="fa-solid fa-chevron-down absolute right-3 sm:right-4 bottom-2.5 sm:bottom-3.5 text-heritage-gold text-xs pointer-events-none"></i>
                         </div>
@@ -243,7 +243,7 @@
     </div>
 
     <div id="part-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-6 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300">
-        <div class="bg-heritage-leather border-2 border-heritage-saddle w-full max-w-4xl max-h-[90vh] rounded-sm shadow-2xl flex flex-col overflow-hidden relative leather-stitch transform scale-95 transition-transform duration-300" id="modal-content">
+        <div class="bg-heritage-leather border-2 border-heritage-saddle w-full max-w-4xl xl:max-w-6xl max-h-[90vh] rounded-sm shadow-2xl flex flex-col overflow-hidden relative leather-stitch transform scale-95 transition-transform duration-300" id="modal-content">
             
             <button onclick="closeModal()" class="absolute top-4 right-4 z-50 bg-heritage-base/80 hover:bg-heritage-red text-heritage-cream w-8 h-8 flex items-center justify-center rounded-sm border border-heritage-saddle transition-colors">
                 <i class="fa-solid fa-xmark"></i>
@@ -513,11 +513,14 @@
         }
 
         function openModal(part) {
+            const modalContent = document.getElementById('modal-content');
             const modalImageContainer = document.getElementById('modal-image-container');
             const modalContentContainer = document.getElementById('modal-content-container');
-            modalImageContainer.classList.remove('md:w-2/3');
+            modalContent.classList.remove('max-w-6xl');
+            modalContent.classList.add('max-w-4xl');
+            modalImageContainer.classList.remove('md:w-3/5');
             modalImageContainer.classList.add('md:w-auto');
-            modalContentContainer.classList.remove('md:w-1/3');
+            modalContentContainer.classList.remove('md:w-2/5');
             modalContentContainer.classList.add('md:flex-1');
             
             document.getElementById('modal-title').textContent = part.Name;
@@ -583,15 +586,20 @@
             const modalContentContainer = document.getElementById('modal-content-container');
             
             const adjustContainerWidth = () => {
+                const modalContent = document.getElementById('modal-content');
                 if (modalMainImage.naturalWidth > modalMainImage.naturalHeight) {
+                    modalContent.classList.remove('max-w-4xl');
+                    modalContent.classList.add('max-w-6xl');
                     modalImageContainer.classList.remove('md:w-auto');
-                    modalImageContainer.classList.add('md:w-2/3');
+                    modalImageContainer.classList.add('md:w-3/5');
                     modalContentContainer.classList.remove('md:flex-1');
-                    modalContentContainer.classList.add('md:w-1/3');
+                    modalContentContainer.classList.add('md:w-2/5');
                 } else {
-                    modalImageContainer.classList.remove('md:w-2/3');
+                    modalContent.classList.remove('max-w-6xl');
+                    modalContent.classList.add('max-w-4xl');
+                    modalImageContainer.classList.remove('md:w-3/5');
                     modalImageContainer.classList.add('md:w-auto');
-                    modalContentContainer.classList.remove('md:w-1/3');
+                    modalContentContainer.classList.remove('md:w-2/5');
                     modalContentContainer.classList.add('md:flex-1');
                 }
             };

@@ -11,7 +11,6 @@ import (
 	"github.com/eduardo/classicCarSearch/internal/services"
 )
 
-// API Response types
 type APIResponse struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data,omitempty"`
@@ -31,7 +30,7 @@ type LoginResponse struct {
 type PartsResponse struct {
 	Results                []models.SearchResult `json:"results"`
 	AvailableBrands        []string              `json:"availableBrands"`
-	AvailableCategories    []string              `json:"availableCategories"`
+	AvailableCategories   []string              `json:"availableCategories"`
 	AvailableSubcategorias map[string][]string   `json:"availableSubcategorias"`
 }
 
@@ -52,6 +51,14 @@ func NewAPIHandler(provider services.DataProvider, search *services.SearchServic
 }
 
 func (h *APIHandler) Login(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	if r.Method != http.MethodPost {
 		writeJSONError(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -109,7 +116,6 @@ func (h *APIHandler) GetParts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check authentication
 	token := h.session.GetTokenFromRequest(r)
 	if token == "" {
 		writeJSONError(w, "Unauthorized", http.StatusUnauthorized)
@@ -124,7 +130,6 @@ func (h *APIHandler) GetParts(w http.ResponseWriter, r *http.Request) {
 
 	ctx := r.Context()
 
-	// Parse query parameters
 	query := r.URL.Query().Get("q")
 	brand := r.URL.Query().Get("brand")
 	partType := r.URL.Query().Get("type")
@@ -176,7 +181,6 @@ func (h *APIHandler) GetFilters(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check authentication
 	token := h.session.GetTokenFromRequest(r)
 	if token == "" {
 		writeJSONError(w, "Unauthorized", http.StatusUnauthorized)
